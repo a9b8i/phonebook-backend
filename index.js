@@ -5,6 +5,7 @@ const morganBody = require('morgan-body');
 const cors = require('cors')
 
 app.use(cors())
+app.use(express.static('build'))
 app.use(express.json())
 app.use(morgan('tiny'))
 morganBody(app);
