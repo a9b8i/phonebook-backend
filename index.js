@@ -81,11 +81,7 @@ const generateId = () => {
 app.post('/api/persons', (request, response) => {
     const body = request.body
 
-    if (Data.find(person => person.name === body.name)){
-        return response.status(400).json({
-            error: "Name already exists"
-        })
-    } else if(!body.name){
+    if(!body.name){
         return response.status(400).json({
             error: "Name required"
         })
@@ -97,14 +93,14 @@ app.post('/api/persons', (request, response) => {
 
     }
 
-    const person = {
-        id: generateId(),
+    const person = new Person({
         name: body.name,
         number: body.number
-    }
+    })
 
-    Data = Data.concat(person)
-    response.json(person)
+    person.save().then(savedPerson => {
+        response.json(savedPerson)
+    })
 })
 
 const PORT = process.env.PORT || 3002;
